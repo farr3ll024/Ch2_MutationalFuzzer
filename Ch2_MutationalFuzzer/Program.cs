@@ -8,6 +8,13 @@ namespace Ch2_MutationalFuzzer
     {
         public static void Main(string[] args)
         {
+            _getFuzzer(args);
+            Console.WriteLine();
+            _postFuzzer(args);
+        }
+
+        private static void _getFuzzer(string[] args)
+        {
             var url = args[0];
             var index = url.IndexOf("?", StringComparison.Ordinal);
             var parms = url.Remove(0, index + 1).Split('&');
@@ -41,6 +48,11 @@ namespace Ch2_MutationalFuzzer
                 if (sqlresp.Contains("error in your SQL syntax"))
                     Console.WriteLine("SQL injection point found in parameter: " + parm);
             }
+        }
+
+        private static void _postFuzzer(string[] args)
+        {
+            Console.WriteLine("hello world");
         }
     }
 }
