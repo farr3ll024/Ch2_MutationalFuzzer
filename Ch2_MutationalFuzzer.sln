@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ch2_MutationalFuzzer", "Ch2_MutationalFuzzer\Ch2_MutationalFuzzer.csproj", "{818AAEAB-4895-4511-9577-7D79CCDA6B9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ch2_MutationalFuzzerTests", "Ch2_MutationalFuzzerTests\Ch2_MutationalFuzzerTests.csproj", "{BCFA8E0F-84F2-4E88-B481-BA68D3EB5C03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{818AAEAB-4895-4511-9577-7D79CCDA6B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{818AAEAB-4895-4511-9577-7D79CCDA6B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{818AAEAB-4895-4511-9577-7D79CCDA6B9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCFA8E0F-84F2-4E88-B481-BA68D3EB5C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCFA8E0F-84F2-4E88-B481-BA68D3EB5C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCFA8E0F-84F2-4E88-B481-BA68D3EB5C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCFA8E0F-84F2-4E88-B481-BA68D3EB5C03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

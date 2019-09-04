@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Ch2_MutationalFuzzer
 {
-    internal static class Program
+    public class Program
     {
         public static void Main(string[] args)
         {
