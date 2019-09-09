@@ -1,18 +1,25 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace Ch2_MutationalFuzzer
 {
     public class Program
     {
+        // fuzzer driver
         public static void Main(string[] args)
         {
+            // GET: call get fuzzer
             _getFuzzer(args);
             Console.WriteLine();
-            _postFuzzer(args);
+
+            // POST: call post fuzzer
+//            _postFuzzer(args);
         }
 
+        //GET: fuzzer
         private static void _getFuzzer(string[] args)
         {
             var url = args[0];
@@ -50,9 +57,54 @@ namespace Ch2_MutationalFuzzer
             }
         }
 
+        // POST: fuzzer
         private static void _postFuzzer(string[] args)
         {
-            Console.WriteLine("hello world");
+            // Read request from the file
+            string[] requestLines = File.ReadAllLines(args[0]);
+            // Store request (line-by-line) in into a string array and grab the parameters from the last line
+            string[] parms = requestLines[requestLines.Length - 1].Split('&');
+            // host var: stores IP address of the host we are sending the request to
+            string host = string.Empty;
+            // Used to build the full request as a single string
+            StringBuilder requestBuilder = new StringBuilder();
+
+            foreach (string ln in requestLines)
+            {
+                if (ln.StartsWith("Host:"))
+                    // Call Replace() on the string to remove the trailing \r 
+                    host = ln.Split(' ')[1].Replace("\r", string.Empty);
+                requestBuilder.Append(ln + "\n");
+            }
+
+            string request = requestBuilder + "\r\n";
+            Console.WriteLine(request);
+
+            // Begin fuzzing parameters for SQL injections 
+            IPEndPoint rhost = new IPEndPoint(IPAddress.Parse(host), 80);
+            foreach (string parm in parms)
+            {
+                using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                {
+                    sock.Connect(rhost);
+
+                    string val = parm.Split('=')[1];
+                    string req = request.Replace("=" + val, "=" + val + "'");
+
+                    byte[] reqBytes = Encoding.ASCII.GetBytes(req);
+                    sock.Send(reqBytes);
+
+                    byte[] buf = new byte[sock.ReceiveBufferSize];
+
+                    sock.Receive(buf);
+                    string response = Encoding.ASCII.GetString(buf);
+                    if (response.Contains("error in your SQL syntax"))
+                    {
+                        Console.WriteLine("Parameter " + parm + " seems vulnerable");
+                        Console.Write(" to SQL injection with value: " + val + "'");
+                    }
+                }
+            }
         }
     }
 }
